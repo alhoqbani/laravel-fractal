@@ -7,21 +7,22 @@ use App\Transformers\UserTransformers;
 use Illuminate\Http\Request;
 use League\Fractal\Manager;
 use League\Fractal\Resource\Collection;
+use League\Fractal\Resource\Item;
 
 class UserController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return array|\Illuminate\Http\Response
      */
     public function index()
     {
-        $fractel = new Manager();
+        $fractal = new Manager();
         
         $resource = new Collection(User::paginate(), new UserTransformers());
         
-        return $fractel->createData($resource)->toArray();
+        return $fractal->createData($resource)->toArray();
     }
 
     /**
@@ -44,16 +45,21 @@ class UserController extends Controller
     {
         //
     }
-
+    
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\User  $user
-     * @return \Illuminate\Http\Response
+     * @param  \App\Models\User       $user
+     *
+     * @param \League\Fractal\Manager $fractal
+     *
+     * @return array|\Illuminate\Http\Response
      */
-    public function show(User $user)
+    public function show(User $user, Manager $fractal)
     {
-        return $user;
+        $fractal->parseIncludes('posts');
+        
+        return $fractal->createData(new Item($user, new UserTransformers()))->toArray();
     }
 
     /**
