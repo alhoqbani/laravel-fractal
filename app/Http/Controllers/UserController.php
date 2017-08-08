@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Transformers\UserTransformers;
 use Illuminate\Http\Request;
 use League\Fractal\Manager;
 use League\Fractal\Resource\Collection;
@@ -18,13 +19,7 @@ class UserController extends Controller
     {
         $fractel = new Manager();
         
-        $resource = new Collection(User::paginate(), function (User $user) {
-            return [
-              'name' => $user->name,
-              'email' => $user->email,
-              'path' => $user->path
-            ];
-        });
+        $resource = new Collection(User::paginate(), new UserTransformers());
         
         return $fractel->createData($resource)->toArray();
     }
