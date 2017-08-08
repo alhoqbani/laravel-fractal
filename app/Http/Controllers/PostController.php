@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Post;
 use Illuminate\Http\Request;
+use League\Fractal\Manager;
+use League\Fractal\Resource\Collection;
 
 class PostController extends Controller
 {
@@ -14,7 +16,18 @@ class PostController extends Controller
      */
     public function index()
     {
-        return Post::paginate();
+        $posts = Post::paginate();
+        $fractal = new Manager();
+        $resource = new Collection($posts->getCollection(), function (Post $post) {
+            return [
+                'title'      => $post->title,
+                'body'       => $post->body,
+                'author'       => $post->user->name,
+                'created_at' => $post->created_at->toDateString(),
+           ];
+        });
+
+        return $fractal->createData($resource)->toArray();
     }
 
     /**
@@ -24,24 +37,24 @@ class PostController extends Controller
      */
     public function create()
     {
-        //
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
+     *
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
-        //
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Post  $post
+     * @param \App\Models\Post $post
+     *
      * @return \Illuminate\Http\Response
      */
     public function show(Post $post)
@@ -52,34 +65,34 @@ class PostController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Post  $post
+     * @param \App\Models\Post $post
+     *
      * @return \Illuminate\Http\Response
      */
     public function edit(Post $post)
     {
-        //
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Post  $post
+     * @param \Illuminate\Http\Request $request
+     * @param \App\Models\Post         $post
+     *
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Post $post)
     {
-        //
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Post  $post
+     * @param \App\Models\Post $post
+     *
      * @return \Illuminate\Http\Response
      */
     public function destroy(Post $post)
     {
-        //
     }
 }
