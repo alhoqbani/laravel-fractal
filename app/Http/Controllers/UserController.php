@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use League\Fractal\Manager;
+use League\Fractal\Resource\Collection;
 
 class UserController extends Controller
 {
@@ -14,7 +16,17 @@ class UserController extends Controller
      */
     public function index()
     {
-        return User::paginate();
+        $fractel = new Manager();
+        
+        $resource = new Collection(User::paginate(), function (User $user) {
+            return [
+              'name' => $user->name,
+              'email' => $user->email,
+              'path' => $user->path
+            ];
+        });
+        
+        return $fractel->createData($resource)->toArray();
     }
 
     /**

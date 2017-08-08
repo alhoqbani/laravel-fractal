@@ -9,6 +9,8 @@ class User extends Authenticatable
 {
     use Notifiable;
 
+    public $appends = ['path'];
+    
     /**
      * The attributes that are mass assignable.
      *
@@ -26,4 +28,9 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+    
+    public function getPathAttribute()
+    {
+        return url('/api/v1/users/' . $this->id);
+    }
 }
