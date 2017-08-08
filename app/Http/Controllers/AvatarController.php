@@ -2,27 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
-use App\Transformers\UserTransformers;
+use App\Models\Avatar;
 use Illuminate\Http\Request;
-use League\Fractal\Manager;
-use League\Fractal\Resource\Collection;
-use League\Fractal\Resource\Item;
 
-class UserController extends Controller
+class AvatarController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @return array|\Illuminate\Http\Response
+     * @return \Illuminate\Http\Response
      */
     public function index()
     {
-        $fractal = new Manager();
-        
-        $resource = new Collection(User::paginate(), new UserTransformers());
-        
-        return $fractal->createData($resource)->toArray();
+        //
     }
 
     /**
@@ -45,30 +37,25 @@ class UserController extends Controller
     {
         //
     }
-    
+
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\User       $user
-     *
-     * @param \League\Fractal\Manager $fractal
-     *
-     * @return array|\Illuminate\Http\Response
+     * @param  \App\Models\Avatar  $avatar
+     * @return \Illuminate\Http\Response
      */
-    public function show(User $user, Manager $fractal)
+    public function show(Avatar $avatar)
     {
-        $fractal->parseIncludes('posts,avatar');
-        
-        return $fractal->createData(new Item($user, new UserTransformers()))->toArray();
+        //
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\User  $user
+     * @param  \App\Models\Avatar  $avatar
      * @return \Illuminate\Http\Response
      */
-    public function edit(User $user)
+    public function edit(Avatar $avatar)
     {
         //
     }
@@ -77,10 +64,10 @@ class UserController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\User  $user
+     * @param  \App\Models\Avatar  $avatar
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, User $user)
+    public function update(Request $request, Avatar $avatar)
     {
         //
     }
@@ -88,10 +75,10 @@ class UserController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\User  $user
+     * @param  \App\Models\Avatar  $avatar
      * @return \Illuminate\Http\Response
      */
-    public function destroy(User $user)
+    public function destroy(Avatar $avatar)
     {
         //
     }

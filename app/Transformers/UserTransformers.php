@@ -2,6 +2,7 @@
 
 namespace app\Transformers;
 
+use App\Models\Avatar;
 use App\Models\Post;
 use App\Models\User;
 use League\Fractal\TransformerAbstract;
@@ -14,8 +15,8 @@ class UserTransformers extends TransformerAbstract
      * @var array
      */
     protected $availableIncludes = [
+        'avatar',
         'posts',
-        'comments',
     ];
 
     /**
@@ -48,6 +49,24 @@ class UserTransformers extends TransformerAbstract
         return $this->collection($posts, function (Post $post) {
             return [
                 'title' => $post->title,
+            ];
+        });
+    }
+    
+    /**
+     * Include Avatar.
+     *
+     * @param \App\Models\User $user
+     *
+     * @return \League\Fractal\Resource\Item
+     */
+    public function includeAvatar(User $user)
+    {
+        $avatar = $user->avatar;
+
+        return $this->item($avatar, function (Avatar $avatar) {
+            return [
+                'avatar_url' => $avatar->path,
             ];
         });
     }
