@@ -28,7 +28,12 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
-
+    
+    public function token()
+    {
+        return $this->hasMany(Token::class);
+    }
+    
     public function getPathAttribute()
     {
         return url('/api/v1/users/'.$this->id);
