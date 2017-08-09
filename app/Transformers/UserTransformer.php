@@ -5,6 +5,7 @@ namespace app\Transformers;
 use App\Models\Avatar;
 use App\Models\Post;
 use App\Models\User;
+use App\Transformers\PostTransformer;
 use League\Fractal\TransformerAbstract;
 
 class UserTransformer extends TransformerAbstract
@@ -54,11 +55,7 @@ class UserTransformer extends TransformerAbstract
     {
         $posts = $user->posts;
 
-        return $this->collection($posts, function (Post $post) {
-            return [
-                'title' => $post->title,
-            ];
-        });
+        return $this->collection($posts, new PostTransformer());
     }
     
     /**

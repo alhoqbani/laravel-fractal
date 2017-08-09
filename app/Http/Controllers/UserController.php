@@ -57,8 +57,9 @@ class UserController extends Controller
      */
     public function show(User $user, Manager $fractal)
     {
-        $fractal->parseIncludes('posts,avatar');
-        
+        $fractal->parseIncludes('posts.comments,avatar');
+        $fractal->parseExcludes('posts.user');
+    
         return $fractal->createData(new Item($user, new UserTransformer()))->toArray();
     }
 
