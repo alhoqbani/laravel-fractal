@@ -6,3 +6,6 @@ Route::get('auth/laravel-api/callback', 'Auth\OAuth\LaravelApiAuthController@cal
 Route::get('/', function () {
     return view('welcome');
 });
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
