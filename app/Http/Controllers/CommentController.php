@@ -7,6 +7,8 @@ use App\Transformers\CommentTransformer;
 use Illuminate\Http\Request;
 use League\Fractal\Manager;
 use League\Fractal\Resource\Collection;
+use League\Fractal\Resource\Item;
+use League\Fractal\Serializer\ArraySerializer;
 
 class CommentController extends Controller
 {
@@ -45,16 +47,19 @@ class CommentController extends Controller
     {
         //
     }
-
+    
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Comment  $comment
-     * @return \Illuminate\Http\Response
+     * @param  \App\Models\Comment    $comment
+     * @param \League\Fractal\Manager $fractal
+     *
+     * @return array|\Illuminate\Http\Response
      */
-    public function show(Comment $comment)
+    public function show(Comment $comment, Manager $fractal)
     {
-        return $comment;
+        $fractal->setSerializer(new ArraySerializer());
+        return $fractal->createData(new Item($comment, new CommentTransformer()))->toArray();
     }
 
     /**
