@@ -3,18 +3,26 @@
 namespace App\Http\Controllers;
 
 use App\Models\Comment;
+use App\Transformers\CommentTransformer;
 use Illuminate\Http\Request;
+use League\Fractal\Manager;
+use League\Fractal\Resource\Collection;
 
 class CommentController extends Controller
 {
+    
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @param \League\Fractal\Manager $fractal
+     *
+     * @return array|\Illuminate\Http\Response
      */
-    public function index()
+    public function index(Manager $fractal)
     {
-        return Comment::paginate();
+        $fractal->parseExcludes('user');
+        $fractal->parseIncludes('post');
+        return $fractal->createData(new Collection(Comment::paginate(30), new CommentTransformer()))->toArray();
     }
 
     /**
