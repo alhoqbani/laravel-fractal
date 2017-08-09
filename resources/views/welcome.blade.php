@@ -81,10 +81,6 @@
                 <div class="title m-b-md">
                     Laravel Fractal
                 </div>
-
-                <div class="links">
-                    <a href="{{route('laravel.api.redirect')}}">Laravel Api Auth</a>
-                </div>
             </div>
         </div>
     </body>

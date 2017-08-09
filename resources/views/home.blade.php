@@ -8,7 +8,9 @@
                 <div class="panel-heading">Dashboard</div>
 
                 <div class="panel-body">
-                    You are logged in!
+                    <div class="links">
+                        <a href="{{route('laravel.api.redirect')}}">Laravel Api Auth</a>
+                    </div>
                 </div>
             </div>
         </div>
