@@ -6,29 +6,27 @@ use App\Models\Post;
 use App\Transformers\PostTransformer;
 use Illuminate\Http\Request;
 use League\Fractal\Manager;
+use League\Fractal\Pagination\IlluminatePaginatorAdapter;
 use League\Fractal\Resource\Collection;
 use League\Fractal\Resource\Item;
 
 class PostController extends Controller
 {
+    
     /**
      * Display a listing of the resource.
      *
+     * @param \League\Fractal\Manager $fractal
+     *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Manager $fractal)
     {
-        $posts = Post::paginate();
-        $fractal = new Manager();
-        $resource = new Collection($posts->getCollection(), function (Post $post) {
-            return [
-                'title'      => $post->title,
-                'body'       => $post->body,
-                'author'       => $post->user->name,
-                'created_at' => $post->created_at->toDateString(),
-           ];
-        });
+        $paginator = Post::paginate(3)->appends(request()->query());
+        $posts = $paginator->getCollection();
 
+        $resource = new Collection($posts, new PostTransformer(), 'posts');
+        $resource->setPaginator(new IlluminatePaginatorAdapter($paginator));
         return $fractal->createData($resource)->toArray();
     }
 
