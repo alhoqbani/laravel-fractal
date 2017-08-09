@@ -19,7 +19,9 @@ class DatabaseSeeder extends Seeder
                     ->each(function ($post) {
                         collect(factory(\App\Models\Comment::class, rand(5, 10))->create([
                             'post_id' => $post->id,
-                            'user_id' => rand(1, 25),
+                            'user_id' => function() {
+                                return rand(1, 25);
+                            },
                         ]));
                     });
             });

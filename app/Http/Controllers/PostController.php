@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
+use App\Transformers\PostTransformers;
 use Illuminate\Http\Request;
 use League\Fractal\Manager;
 use League\Fractal\Resource\Collection;
+use League\Fractal\Resource\Item;
 
 class PostController extends Controller
 {
@@ -49,17 +51,20 @@ class PostController extends Controller
     public function store(Request $request)
     {
     }
-
+    
     /**
      * Display the specified resource.
      *
-     * @param \App\Models\Post $post
+     * @param \App\Models\Post        $post
      *
-     * @return \Illuminate\Http\Response
+     * @param \League\Fractal\Manager $manager
+     *
+     * @return array|\Illuminate\Http\Response
      */
-    public function show(Post $post)
+    public function show(Post $post, Manager $manager)
     {
-        return $post;
+        $manager->parseIncludes('comments');
+        return $manager->createData(new Item($post, new PostTransformers()))->toArray();
     }
 
     /**

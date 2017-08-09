@@ -18,4 +18,9 @@ class Post extends Model
         return $this->belongsTo(User::class);
     }
     
+    public function getPathAttribute()
+    {
+        return url('/api/v1/posts/'.$this->id);
+    }
+    
 }
