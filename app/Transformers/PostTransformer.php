@@ -6,7 +6,7 @@ use App\Models\Post;
 use App\Models\Comment;
 use League\Fractal\TransformerAbstract;
 
-class PostTransformers extends TransformerAbstract
+class PostTransformer extends TransformerAbstract
 {
     /**
      * List of resources to automatically include
@@ -55,7 +55,7 @@ class PostTransformers extends TransformerAbstract
     {
         $user = $post->user;
 
-        return $this->item($user, new UserTransformers());
+        return $this->item($user, new UserTransformer());
     }
 
     /**

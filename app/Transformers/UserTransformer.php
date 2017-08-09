@@ -7,7 +7,7 @@ use App\Models\Post;
 use App\Models\User;
 use League\Fractal\TransformerAbstract;
 
-class UserTransformers extends TransformerAbstract
+class UserTransformer extends TransformerAbstract
 {
     /**
      * List of resources to automatically include

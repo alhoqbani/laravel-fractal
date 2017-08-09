@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
-use App\Transformers\UserTransformers;
+use App\Transformers\UserTransformer;
 use Illuminate\Http\Request;
 use League\Fractal\Manager;
 use League\Fractal\Resource\Collection;
@@ -20,7 +20,7 @@ class UserController extends Controller
     {
         $fractal = new Manager();
         
-        $resource = new Collection(User::paginate(), new UserTransformers());
+        $resource = new Collection(User::paginate(), new UserTransformer());
         
         return $fractal->createData($resource)->toArray();
     }
@@ -59,7 +59,7 @@ class UserController extends Controller
     {
         $fractal->parseIncludes('posts,avatar');
         
-        return $fractal->createData(new Item($user, new UserTransformers()))->toArray();
+        return $fractal->createData(new Item($user, new UserTransformer()))->toArray();
     }
 
     /**

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
-use App\Transformers\PostTransformers;
+use App\Transformers\PostTransformer;
 use Illuminate\Http\Request;
 use League\Fractal\Manager;
 use League\Fractal\Resource\Collection;
@@ -64,7 +64,7 @@ class PostController extends Controller
     public function show(Post $post, Manager $manager)
     {
         $manager->parseIncludes('comments');
-        return $manager->createData(new Item($post, new PostTransformers()))->toArray();
+        return $manager->createData(new Item($post, new PostTransformer()))->toArray();
     }
 
     /**
