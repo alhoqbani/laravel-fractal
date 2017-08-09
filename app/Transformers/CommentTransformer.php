@@ -2,7 +2,6 @@
 
 namespace App\Transformers;
 
-use App\Models\Post;
 use App\Models\Comment;
 use League\Fractal\TransformerAbstract;
 
@@ -39,7 +38,8 @@ class CommentTransformer extends TransformerAbstract
     public function transform(Comment $comment)
     {
         return [
-            'body'        => $comment->body,
+            'id'      => $comment->id,
+            'body'    => $comment->body,
             'created' => $comment->created_at->diffForHumans(),
         ];
     }
@@ -75,7 +75,8 @@ class CommentTransformer extends TransformerAbstract
 
         return $this->item($post, function ($post) {
             return [
-                'post' => $post->path
+                'id'   => $post->id,
+                'post' => $post->path,
             ];
         });
     }

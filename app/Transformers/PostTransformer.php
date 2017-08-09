@@ -2,8 +2,8 @@
 
 namespace App\Transformers;
 
-use App\Models\Post;
 use App\Models\Comment;
+use App\Models\Post;
 use League\Fractal\TransformerAbstract;
 
 class PostTransformer extends TransformerAbstract

@@ -4,19 +4,30 @@ namespace App\Http\Controllers;
 
 use App\Models\Comment;
 use App\Models\Post;
+use App\Transformers\CommentTransformer;
 use Illuminate\Http\Request;
+use League\Fractal\Manager;
+use League\Fractal\Resource\Collection;
+use League\Fractal\Serializer\JsonApiSerializer;
 
 class PostCommentController extends Controller
 {
+    
     /**
      * Display a listing of the resource.
      *
-     * @param  \App\Models\Post  $post
-     * @return \Illuminate\Http\Response
+     * @param  \App\Models\Post       $post
+     *
+     * @param \League\Fractal\Manager $fractal
+     *
+     * @return array|\Illuminate\Http\Response
      */
-    public function index(Post $post)
+    public function index(Post $post, Manager $fractal)
     {
-        return $post->comments;
+        $fractal->parseExcludes('user.avatar');
+        $fractal->parseIncludes('post');
+        $fractal->setSerializer(new JsonApiSerializer);
+        return $fractal->createData(new Collection($post->comments, new CommentTransformer(), 'comment'))->toArray();
     }
 
     /**
