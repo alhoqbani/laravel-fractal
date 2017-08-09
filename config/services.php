@@ -30,9 +30,16 @@ return [
     ],
 
     'stripe' => [
-        'model' => App\User::class,
+        'model' => App\Models\User::class,
         'key' => env('STRIPE_KEY'),
         'secret' => env('STRIPE_SECRET'),
     ],
+    
+    'laravel-api' => [
+        'client_id' => env('LARAVEL_API_CLIENT_ID'),
+        'secret' => env('LARAVEL_API_SECRET'),
+        'redirect_uri' => '',
+        'name' => env('LARAVEL_API_CLIENT_NAME')
+    ]
 
 ];

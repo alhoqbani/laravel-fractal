@@ -1,15 +1,7 @@
 <?php
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
+Route::get('auth/laravel-api/redirect', 'Auth\OAuth\LaravelApiAuthController@redirect')->name('laravel.api.redirect');
+Route::get('auth/laravel-api/callback', 'Auth\OAuth\LaravelApiAuthController@callback')->name('laravel.api.callback');
 
 Route::get('/', function () {
     return view('welcome');
